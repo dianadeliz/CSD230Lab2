@@ -1,0 +1,14 @@
+com/lab2/discussion/repository/ThreadRepository.class
+com/lab2/discussion/controller/ThreadController.class
+com/lab2/discussion/model/Thread.class
+com/lab2/discussion/security/JwtUtil.class
+com/lab2/discussion/model/User.class
+com/lab2/discussion/security/SecurityConfig.class
+com/lab2/discussion/repository/PostRepository.class
+com/lab2/discussion/controller/AuthController.class
+com/lab2/discussion/security/JwtFilter.class
+com/lab2/discussion/AdminInitializer.class
+com/lab2/discussion/App.class
+com/lab2/discussion/repository/UserRepository.class
+com/lab2/discussion/controller/PostController.class
+com/lab2/discussion/model/Post.class

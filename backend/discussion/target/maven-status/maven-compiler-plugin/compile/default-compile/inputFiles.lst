@@ -1,0 +1,14 @@
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/AdminInitializer.java
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/App.java
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/controller/AuthController.java
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/controller/PostController.java
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/controller/ThreadController.java
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/model/Post.java
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/model/Thread.java
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/model/User.java
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/repository/PostRepository.java
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/repository/ThreadRepository.java
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/repository/UserRepository.java
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/security/JwtFilter.java
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/security/JwtUtil.java
+/Users/dianaelizabethtorreslopez/Desktop/discussion-boardTEAM/backend/discussion/src/main/java/com/lab2/discussion/security/SecurityConfig.java

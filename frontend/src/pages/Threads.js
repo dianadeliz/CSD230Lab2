@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../utils/api';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'; //React Router enables navigation using <Link> and useNavigate() which will 
+// change the URL without reloading the page.
 
 function Threads() {
   const [threads, setThreads] = useState([]);

@@ -23,11 +23,16 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@RequestBody User user) {
+        System.out.println("Received role: " + user.getRole());
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setRole("USER");
+        if (user.getRole() == null || user.getRole().isBlank()) {
+            user.setRole("USER");
+        }
+        System.out.println("Registering user with role: " + user.getRole());
         userRepo.save(user);
         return "User registered";
     }
+
 
     @PostMapping("/login")
     public Map<String, String> login(@RequestBody User loginRequest) {

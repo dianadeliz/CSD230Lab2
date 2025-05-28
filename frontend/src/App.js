@@ -1,11 +1,13 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'; //BrowserRouter from React Router 
+// is used here to wrap all routes inside a Routes component.
 import Threads from './pages/Threads';
 import Posts from './pages/Posts';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Layout from './components/Layout';
+import Chatbot from './components/Chatbot';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem('token'));
@@ -20,32 +22,35 @@ function App() {
   // Pass setIsLoggedIn to Login so it can update after successful login
   return (
     <Router>
-      <Routes>
-        <Route path="/register" element={<Register />} />
-        <Route path="/" element={isLoggedIn ? <Navigate to="/threads" /> : <Login setIsLoggedIn={setIsLoggedIn} />} />
-        <Route
-          path="/threads"
-          element={
-            isLoggedIn ? (
-              <Layout setIsLoggedIn={setIsLoggedIn}><Threads /></Layout>
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
-        <Route
-          path="/posts/:threadId"
-          element={
-            isLoggedIn ? (
-              <Layout setIsLoggedIn={setIsLoggedIn}><Posts /></Layout>
-            ) : (
-              <Navigate to="/" />
-            )
-          }
-        />
-        {/* Catch-all: redirect unknown routes */}
-        <Route path="*" element={<Navigate to={isLoggedIn ? "/threads" : "/"} />} />
-      </Routes>
+      <>
+        <Routes>
+          <Route path="/register" element={<Register />} />
+          <Route path="/" element={isLoggedIn ? <Navigate to="/threads" /> : <Login setIsLoggedIn={setIsLoggedIn} />} />
+          <Route
+            path="/threads"
+            element={
+              isLoggedIn ? (
+                <Layout setIsLoggedIn={setIsLoggedIn}><Threads /></Layout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          <Route
+            path="/posts/:threadId"
+            element={
+              isLoggedIn ? (
+                <Layout setIsLoggedIn={setIsLoggedIn}><Posts /></Layout>
+              ) : (
+                <Navigate to="/" />
+              )
+            }
+          />
+          {/* Catch-all: redirect unknown routes */}
+          <Route path="*" element={<Navigate to={isLoggedIn ? "/threads" : "/"} />} />
+        </Routes>
+        {isLoggedIn && <Chatbot />}
+      </>
     </Router>
   );
 }

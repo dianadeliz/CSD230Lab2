@@ -1,0 +1,16 @@
+@RestController
+@RequestMapping("/api/chatbot")
+public class ChatbotController {
+    @Autowired private ThreadRepository threadRepo;
+    @Autowired private PostRepository postRepo;
+
+    @GetMapping("/search/threads")
+    public List<Thread> searchThreads(@RequestParam String keyword) {
+        return threadRepo.findByTitleContainingIgnoreCase(keyword);
+    }
+
+    @GetMapping("/search/posts")
+    public List<Post> searchPosts(@RequestParam String keyword) {
+        return postRepo.findByContentContainingIgnoreCase(keyword);
+    }
+}

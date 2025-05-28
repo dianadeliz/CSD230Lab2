@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; //React Router enables navigation using <Link> and useNavigate() which change the URL without reloading the page.
 import api from '../utils/api';
 
 function Login({ setIsLoggedIn }) {

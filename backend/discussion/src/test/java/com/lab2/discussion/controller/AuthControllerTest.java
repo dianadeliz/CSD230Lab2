@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
@@ -14,6 +13,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.lab2.discussion.model.User;
@@ -44,12 +44,17 @@ class AuthControllerTest {
         User user = new User();
         user.setUsername("testuser");
         user.setPassword("password");
+        user.setEmail("test@example.com");
+        user.setRole("USER");
         
         when(encoder.encode(any())).thenReturn("encodedPassword");
         
-        String result = authController.register(user);
+        Map<String, String> result = authController.register(user);
         
-        assertEquals("User registered", result);
+        assertEquals("User registered", result.get("message"));
+        assertEquals("testuser", result.get("username"));
+        assertEquals("test@example.com", result.get("email"));
+        assertEquals("USER", result.get("role"));
         verify(userRepo).save(any(User.class));
     }
 
@@ -58,13 +63,17 @@ class AuthControllerTest {
         User user = new User();
         user.setUsername("testuser");
         user.setPassword("password");
+        user.setEmail("test@example.com");
         user.setRole("ADMIN");
         
         when(encoder.encode(any())).thenReturn("encodedPassword");
         
-        String result = authController.register(user);
+        Map<String, String> result = authController.register(user);
         
-        assertEquals("User registered", result);
+        assertEquals("User registered", result.get("message"));
+        assertEquals("testuser", result.get("username"));
+        assertEquals("test@example.com", result.get("email"));
+        assertEquals("ADMIN", result.get("role"));
         verify(userRepo).save(any(User.class));
     }
 
@@ -83,16 +92,17 @@ class AuthControllerTest {
         when(encoder.matches("password", "encodedPassword")).thenReturn(true);
         when(jwtUtil.generateToken("testuser", "USER")).thenReturn("jwt.token.here");
 
-        Map<String, String> response = authController.login(loginRequest);
-
-        assertNotNull(response);
-        assertEquals("jwt.token.here", response.get("token"));
-        assertEquals("testuser", response.get("username"));
-        assertEquals("USER", response.get("role"));
+        ResponseEntity<?> response = authController.login(loginRequest);
+        assertEquals(200, response.getStatusCodeValue());
+        Map<String, String> body = (Map<String, String>) response.getBody();
+        assertNotNull(body);
+        assertEquals("jwt.token.here", body.get("token"));
+        assertEquals("testuser", body.get("username"));
+        assertEquals("USER", body.get("role"));
     }
 
     @Test
-    void login_ShouldThrowExceptionForInvalidCredentials() {
+    void login_ShouldReturnForbiddenForInvalidCredentials() {
         User loginRequest = new User();
         loginRequest.setUsername("testuser");
         loginRequest.setPassword("wrongpassword");
@@ -104,6 +114,10 @@ class AuthControllerTest {
         when(userRepo.findByUsername("testuser")).thenReturn(Optional.of(storedUser));
         when(encoder.matches("wrongpassword", "encodedPassword")).thenReturn(false);
 
-        assertThrows(RuntimeException.class, () -> authController.login(loginRequest));
+        ResponseEntity<?> response = authController.login(loginRequest);
+        assertEquals(403, response.getStatusCodeValue());
+        Map<String, String> body = (Map<String, String>) response.getBody();
+        assertNotNull(body);
+        assertEquals("Invalid credentials", body.get("error"));
     }
 } 

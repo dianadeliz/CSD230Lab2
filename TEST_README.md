@@ -1,168 +1,146 @@
-# Testing Documentation
+# Testing Guide for Discussion Board Application
 
-This document explains how to run and understand the tests for both the backend and frontend components of the discussion board application.
+This guide provides step-by-step instructions for running and understanding the tests for our discussion board application.
 
-## Backend Tests (Spring Boot)
+## Quick Start
 
-### Prerequisites
+1. Clone the repository
+2. Set up the development environment
+3. Run the tests
+
+## Prerequisites
+
+### Backend Requirements
 - Java 17 or higher
 - Maven
-- MongoDB (for integration tests)
+- MongoDB (running locally on default port 27017)
 
-### Running Backend Tests
+### Frontend Requirements
+- Node.js 14 or higher
+- npm or yarn
 
-1. Navigate to the backend directory:
+## Running the Tests
+
+### Backend Tests
+
+1. Start MongoDB:
+```bash
+mongod
+```
+
+2. Navigate to the backend directory:
 ```bash
 cd backend/discussion
 ```
 
-2. Run all tests:
+3. Run all backend tests:
 ```bash
 mvn test
 ```
 
-### Test Structure
+The tests will run and show results in the console. You can find detailed reports in `target/surefire-reports/`.
 
-The backend tests are located in `src/test/java/com/lab2/discussion/` and include:
-
-#### Controller Tests
-- `PostControllerTest.java`: Tests for post-related endpoints
-  - Tests retrieving posts by thread
-  - Tests post creation and deletion
-  - Uses MockMvc for simulating HTTP requests
-
-- `UserControllerTest.java`: Tests for user authentication
-  - Tests user registration
-  - Tests user login
-  - Tests JWT token generation
-  - Mocks BCrypt password encoding
-
-### Test Reports
-After running the tests, you can find the test reports in:
-- `target/surefire-reports/` - Detailed test execution reports
-- Console output - Summary of test results
-
-## Frontend Tests (React)
-
-### Prerequisites
-- Node.js 14 or higher
-- npm or yarn
-
-### Running Frontend Tests
+### Frontend Tests
 
 1. Navigate to the frontend directory:
 ```bash
 cd frontend
 ```
 
-2. Run all tests:
+2. Install dependencies (if not already done):
+```bash
+npm install
+```
+
+3. Run all frontend tests:
 ```bash
 npm test
 ```
 
-### Test Structure
-
-The frontend tests are located in:
-- `src/components/__tests__/` - Component tests
-- `src/__tests__/` - Utility tests
-
-#### Component Tests
-- `PostList.test.jsx`: Tests for the posts list component
-  - Tests rendering of posts
-  - Tests post creation
-  - Tests post deletion (admin only)
-  - Mocks API calls and localStorage
-
-- `LoginForm.test.jsx`: Tests for the login form
-  - Tests form rendering
-  - Tests successful login
-  - Tests error handling
-  - Verifies localStorage updates
-
-- `RegisterForm.test.jsx`: Tests for the registration form
-  - Tests form rendering
-  - Tests successful registration
-  - Tests error handling
-  - Verifies API calls
-
-#### API Tests
-- `api.test.js`: Tests for the API utility
-  - Tests GET requests
-  - Tests POST requests
-  - Tests DELETE requests
-  - Tests error handling
-  - Verifies authentication headers
-
-### Test Commands
-
-When running `npm test`, you'll enter Jest's interactive mode with the following options:
+This will start Jest in watch mode. You can:
 - Press `a` to run all tests
 - Press `f` to run only failed tests
-- Press `p` to filter by a filename regex pattern
-- Press `t` to filter by a test name regex pattern
-- Press `q` to quit watch mode
+- Press `p` to filter by filename
+- Press `t` to filter by test name
+- Press `q` to quit
 
-To run specific test files:
-```bash
-npm test PostList.test.jsx
-npm test LoginForm.test.jsx
-npm test RegisterForm.test.jsx
-npm test api.test.js
-```
+## Test Structure
 
-### Test Coverage
+### Backend Tests (`backend/discussion/src/test/java/com/lab2/discussion/`)
 
-To generate a test coverage report:
-```bash
-npm test -- --coverage
-```
+#### Controller Tests
+- `PostControllerTest.java`: Tests post-related endpoints
+  - GET /api/posts/thread/{threadId}
+  - POST /api/posts
+  - DELETE /api/posts/{id}
 
-This will create a coverage report in the `coverage` directory, showing:
-- Statement coverage
-- Branch coverage
-- Function coverage
-- Line coverage
+- `UserControllerTest.java`: Tests user authentication
+  - POST /api/auth/register
+  - POST /api/auth/login
+
+### Frontend Tests (`frontend/src/`)
+
+#### Component Tests
+- `PostList.test.jsx`: Tests the posts list component
+- `LoginForm.test.jsx`: Tests the login functionality
+- `RegisterForm.test.jsx`: Tests user registration
+
+#### API Tests
+- `api.test.js`: Tests API utility functions
+
+## Common Issues and Solutions
+
+### Backend Issues
+
+1. **MongoDB Connection Error**
+   - Ensure MongoDB is running: `mongod`
+   - Check MongoDB connection string in `application.properties`
+
+2. **Test Failures**
+   - Run `mvn clean test` to clear any cached test results
+   - Check MongoDB is running and accessible
+   - Verify all dependencies are installed: `mvn clean install`
+
+### Frontend Issues
+
+1. **Module Not Found**
+   - Run `npm install` to install dependencies
+   - Clear npm cache: `npm cache clean --force`
+
+2. **Test Environment Issues**
+   - Clear Jest cache: `npm test -- --clearCache`
+   - Check Node.js version: `node -v`
 
 ## Best Practices
 
-1. **Backend Testing**
-   - Use `@WebMvcTest` for controller tests
-   - Mock repositories and services
-   - Test both success and error scenarios
-   - Verify response status and content
+1. **Before Running Tests**
+   - Ensure MongoDB is running
+   - All dependencies are installed
+   - No other services are using required ports
 
-2. **Frontend Testing**
-   - Use React Testing Library for component tests
-   - Mock external dependencies (API, localStorage)
-   - Test user interactions
-   - Verify component rendering
-   - Test error handling
-
-3. **General Guidelines**
-   - Write tests before implementing features (TDD)
-   - Keep tests focused and isolated
+2. **Writing Tests**
+   - Follow existing test patterns
+   - Include both success and error cases
+   - Mock external dependencies
    - Use meaningful test descriptions
-   - Maintain test data separately
-   - Regular test maintenance
 
-## Troubleshooting
+3. **Maintaining Tests**
+   - Update tests when changing features
+   - Keep test data up to date
+   - Document any special test requirements
 
-### Common Issues
-
-1. **Backend Tests**
-   - MongoDB connection issues: Ensure MongoDB is running
-   - Port conflicts: Check if port 8080 is available
-   - Maven dependency issues: Run `mvn clean install`
-
-2. **Frontend Tests**
-   - Module not found: Run `npm install`
-   - Test environment issues: Clear Jest cache with `npm test -- --clearCache`
-   - React version mismatch: Check package.json for correct versions
-
-### Getting Help
+## Getting Help
 
 If you encounter issues:
-1. Check the test output for specific error messages
-2. Review the test reports in the respective directories
-3. Ensure all dependencies are correctly installed
-4. Verify the test environment setup 
+1. Check the error messages in the console
+2. Review the test reports in:
+   - Backend: `backend/discussion/target/surefire-reports/`
+   - Frontend: `frontend/coverage/`
+3. Ensure all prerequisites are met
+4. Check the application logs
+
+## Additional Resources
+
+- [Spring Boot Testing Documentation](https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.testing)
+- [Jest Documentation](https://jestjs.io/docs/getting-started)
+- [React Testing Library](https://testing-library.com/docs/react-testing-library/intro/) 
